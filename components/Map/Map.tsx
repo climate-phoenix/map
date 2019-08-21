@@ -62,7 +62,7 @@ export const Map = () => {
       height="100vh"
       mapStyle={defaultStyle}
       onViewportChange={viewPort => setViewPort(viewPort)}
-      // onClick={(e) => console.log(e)}
+      onClick={(e) => console.log(e)}
     />
   )
 }
