@@ -4,11 +4,11 @@ import { Layer, Sources, GeoJSONSourceRaw } from 'mapbox-gl'
 import defaultStyle from './style.json'
 import { useState } from 'react'
 
-import carbon from '../../data/carbon-dioxide-emissions.json'
+import carbon from '../../data/new-carbon-emissions.json'
 import { COUNTRIES } from '../../utils'
 
 const carbonsPerCapita = Object.entries(carbon).map(
-  ([_, country]) => Number(country.carbonPerCapita) || 0,
+  ([_, country]) => Number(country.emissionPerCapita2017) || 0,
 )
 const max = Math.max(...carbonsPerCapita)
 const min = Math.min(...carbonsPerCapita)
@@ -25,12 +25,12 @@ for (const country of COUNTRIES) {
   if (
     defaultStyle.layers.findIndex(layer => layer.id === country) === -1 &&
     carbon[country] &&
-    carbon[country].carbonPerCapita
+    carbon[country].emissionPerCapita2017
   ) {
     // hsl from 0 to 120 is red to 0
-    const color = 120 - (carbon[country].carbonPerCapita / (max / 100) / 100) * 120
+    const color = 120 - (carbon[country].emissionPerCapita2017 / (max / 100) / 100) * 120
 
-    console.log(carbon[country].carbonPerCapita, color)
+    console.log(carbon[country].emissionPerCapita2017, color)
 
     const layer = {
       id: country,
