@@ -36482,7 +36482,7 @@ const result = raw.map(c => {
   let found = false
   for (let i = 0; i < a.length; i++) {
     if (a[i].name.common === c.country) {
-      if (a[i].cioc) {
+      if (a[i].cioc && a[i].cioc.length > 0) {
         found = true
         return {
           ...c,
