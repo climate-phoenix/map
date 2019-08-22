@@ -36453,6 +36453,31 @@ const raw = [{
   "emissionPerCapita2017": "0.7",
 }]
 
+const result2 = raw.reduce((acc, c) => {
+  let found = false
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].name.common === c.country) {
+      if (a[i].cca3.toLowerCase()) {
+        found = true
+        acc[a[i].cca3.toLowerCase()] = {
+          ...c,
+        }
+      }
+      else if (a[i].cioc) {
+        found = true
+        acc[a[i].cioc.toLowerCase()] = {
+          ...c
+        }
+        return acc
+      }
+    }
+  }
+  if (!found) {
+    console.log('ouch!', c.country)
+  }
+  return acc
+}, {})
+
 const result = raw.map(c => {
   let found = false
   for (let i = 0; i < a.length; i++) {
@@ -36477,7 +36502,7 @@ const result = raw.map(c => {
   }
 })
 
-const output = JSON.stringify(result)
+const output = JSON.stringify(result2)
 
 import { writeFile } from 'fs'
 writeFile('myjsonfile.json', output, 'utf8', () => {})
