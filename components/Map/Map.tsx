@@ -14,30 +14,35 @@ const carbonsPerCapita = Object.entries(carbon).map(
 const categories = [
   {
     name: 'green',
+    description: '0 <=',
     hue: '120',
     min: '0',
     max: '2',
   },
   {
     name: 'yellowgreen',
+    description: '2 <=',
     hue: '90',
     min: '2',
     max: '4',
   },
   {
     name: 'yellow',
+    description: '4 <=',
     hue: '60',
     min: '4',
     max: '6',
   },
   {
     name: 'orange',
+    description: '6 <=',
     hue: '30',
     min: '6',
     max: '8',
   },
   {
     name: 'red',
+    description: '8 <=',
     hue: '0',
     min: '8',
     max: '10000',
@@ -89,43 +94,6 @@ for (const country of COUNTRIES) {
   }
 }
 
-const legend = {
-  id: 'state-population',
-  source: 'abw',
-  'source-layer': 'abw',
-  type: 'fill',
-  filter: ['==', 'isState', true],
-  layout: {},
-  paint: {
-    'fill-color': [
-      'interpolate',
-      ['linear'],
-      ['get', 'population'],
-      0,
-      '#F2F12D',
-      500000,
-      '#EED322',
-      750000,
-      '#E6B71E',
-      1000000,
-      '#DA9C20',
-      2500000,
-      '#CA8323',
-      5000000,
-      '#B86B25',
-      7500000,
-      '#A25626',
-      10000000,
-      '#8B4225',
-      25000000,
-      '#723122',
-    ],
-    'fill-opacity': 0.75,
-  },
-} as any
-
-defaultStyle.layers.push(legend)
-
 defaultStyle.sources = {
   ...defaultStyle.sources,
   ...countrySource,
@@ -139,18 +107,56 @@ const defaultViewPort: ViewState = {
   pitch: 0,
 }
 
+const legendLine = category => (
+  <div>
+    <div className="circle"> </div> {category.description}
+    <style jsx>{`
+      .circle {
+        background: hsl(${category.hue}, 100%, 50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        float: left;
+      }
+    `}</style>
+  </div>
+)
+
+const legend = () => (
+  <div>
+        Carbon emission [t CO₂ per capita per year]
+        {categories.map(c => {
+          return legendLine(c)
+        })}
+        <style jsx>{`
+          div {
+            position: fixed;
+            z-index: 1000;
+            background: white;
+            min-height: 20vh;
+            min-width: 300px;
+            bottom: 20px;
+            right: 20px;
+          }
+        `}</style>
+      </div>
+)
+
 export const Map = () => {
   const [viewPort, setViewPort] = useState(defaultViewPort)
 
   return (
-    <ReactMapGL
-      {...viewPort}
-      mapboxApiAccessToken={process.env.mapBoxToken}
-      width="auto"
-      height="100vh"
-      mapStyle={defaultStyle}
-      onViewportChange={viewPort => setViewPort(viewPort)}
-      onClick={e => console.log(e)}
-    />
+    <>
+      {legend()}
+      <ReactMapGL
+        {...viewPort}
+        mapboxApiAccessToken={process.env.mapBoxToken}
+        width="auto"
+        height="100vh"
+        mapStyle={defaultStyle}
+        onViewportChange={viewPort => setViewPort(viewPort)}
+        onClick={e => console.log(e)}
+      />
+    </>
   )
 }
