@@ -10,8 +10,53 @@ import { COUNTRIES } from '../../utils'
 const carbonsPerCapita = Object.entries(carbon).map(
   ([_, country]) => Number(country.emissionPerCapita2017) || 0,
 )
-const max = Math.max(...carbonsPerCapita)
-const min = Math.min(...carbonsPerCapita)
+
+const categories = [
+  {
+    name: 'green',
+    hue: '120',
+    min: '0',
+    max: '2',
+  },
+  {
+    name: 'yellowgreen',
+    hue: '90',
+    min: '2',
+    max: '4',
+  },
+  {
+    name: 'yellow',
+    hue: '60',
+    min: '4',
+    max: '6',
+  },
+  {
+    name: 'orange',
+    hue: '30',
+    min: '6',
+    max: '8',
+  },
+  {
+    name: 'red',
+    hue: '0',
+    min: '8',
+    max: '10000',
+  },
+]
+
+const calculateColor = carbon => {
+  if (carbon < 2) {
+    return 120
+  } else if (carbon < 4) {
+    return 90
+  } else if (carbon < 6) {
+    return 60
+  } else if (carbon < 8) {
+    return 30
+  } else {
+    return 0
+  }
+}
 
 const countrySource = COUNTRIES.reduce((acc, country): Sources => {
   acc[country] = {
@@ -27,10 +72,7 @@ for (const country of COUNTRIES) {
     carbon[country] &&
     carbon[country].emissionPerCapita2017
   ) {
-    // hsl from 0 to 120 is red to 0
-    const color = 120 - (carbon[country].emissionPerCapita2017 / (max / 100) / 100) * 120
-
-    console.log(carbon[country].emissionPerCapita2017, color)
+    const color = calculateColor(carbon[country].emissionPerCapita2017)
 
     const layer = {
       id: country,
@@ -88,9 +130,6 @@ defaultStyle.sources = {
   ...defaultStyle.sources,
   ...countrySource,
 } as any
-
-console.log(defaultStyle.sources)
-console.log(defaultStyle.layers)
 
 const defaultViewPort: ViewState = {
   latitude: 47.33333333,
