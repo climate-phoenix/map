@@ -7,10 +7,6 @@ import { useState } from 'react'
 import carbon from '../../data/new-carbon-emissions.json'
 import { COUNTRIES } from '../../utils'
 
-const carbonsPerCapita = Object.entries(carbon).map(
-  ([_, country]) => Number(country.emissionPerCapita2017) || 0,
-)
-
 const categories = [
   {
     name: 'green',
