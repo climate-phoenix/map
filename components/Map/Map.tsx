@@ -14,35 +14,35 @@ const carbonsPerCapita = Object.entries(carbon).map(
 const categories = [
   {
     name: 'green',
-    description: '0 <=',
+    description: 'below 2',
     hue: '120',
     min: '0',
     max: '2',
   },
   {
     name: 'yellowgreen',
-    description: '2 <=',
+    description: 'between 2 and 4',
     hue: '90',
     min: '2',
     max: '4',
   },
   {
     name: 'yellow',
-    description: '4 <=',
+    description: 'between 4 and 6',
     hue: '60',
     min: '4',
     max: '6',
   },
   {
     name: 'orange',
-    description: '6 <=',
+    description: 'between 6 and 8',
     hue: '30',
     min: '6',
     max: '8',
   },
   {
     name: 'red',
-    description: '8 <=',
+    description: 'at least 8',
     hue: '0',
     min: '8',
     max: '10000',
@@ -124,22 +124,22 @@ const legendLine = category => (
 
 const legend = () => (
   <div>
-        Carbon emission [t CO₂ per capita per year]
-        {categories.map(c => {
-          return legendLine(c)
-        })}
-        <style jsx>{`
-          div {
-            position: fixed;
-            z-index: 1000;
-            background: white;
-            min-height: 20vh;
-            min-width: 300px;
-            bottom: 20px;
-            right: 20px;
-          }
-        `}</style>
-      </div>
+    Carbon emission [t CO₂ per capita per year]
+    {categories.map(c => {
+      return legendLine(c)
+    })}
+    <style jsx>{`
+      div {
+        position: fixed;
+        z-index: 1000;
+        background: white;
+        min-height: 20vh;
+        min-width: 300px;
+        bottom: 20px;
+        right: 20px;
+      }
+    `}</style>
+  </div>
 )
 
 export const Map = () => {
