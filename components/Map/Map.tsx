@@ -53,9 +53,8 @@ const defaultViewPort: ViewState = {
   pitch: 0,
 }
 
-export const Map = () => {
+export const Map = ({ currentToggles }) => {
   const [viewPort, setViewPort] = useState(defaultViewPort)
-
   return (
     <>
       <Legend />

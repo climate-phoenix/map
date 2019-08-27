@@ -16,9 +16,22 @@ const Logo = () => {
   )
 }
 
-const NavItem = ({ children, color, backgroundColor }) => {
+const NavItem = ({
+  onNavigation,
+  currentToggles,
+  children,
+  slug,
+  color,
+  backgroundColor,
+}) => {
+  console.log(`ZEBRA`, currentToggles)
   return (
-    <div className="nav-item-wrapper">
+    <div
+      className="nav-item-wrapper"
+      onClick={() => {
+        onNavigation({ slug })
+      }}
+    >
       {children}
       <style jsx>{`
         .nav-item-wrapper {
@@ -28,7 +41,9 @@ const NavItem = ({ children, color, backgroundColor }) => {
           justify-content: center;
           width: 150px;
           text-align: center;
-          background-color: ${backgroundColor || '#b22222'};
+          background-color: ${currentToggles[slug]
+            ? backgroundColor || '#b22222'
+            : 'black'};
           color: ${color || 'white'};
           cursor: pointer;
         }
@@ -39,27 +54,31 @@ const NavItem = ({ children, color, backgroundColor }) => {
 
 const NAV_ITEMS = [
   {
-    key: 0,
+    slug: 'carbon-emissions',
     title: 'Carbon Emissions',
     color: 'white',
     backgroundColor: '#b22222',
   },
   {
-    key: 1,
+    slug: 'current-crisis',
     title: 'Current Crisis',
     color: 'white',
     backgroundColor: '#ff851b',
   },
 ]
 
-export const Nav = () => {
+export const Nav = ({ onNavigation, currentToggles }) => {
   return (
     <div className="nav-wrapper">
       <Logo />
       {NAV_ITEMS.map(navItem => (
         <NavItem
+          key={navItem.slug}
+          slug={navItem.slug}
           color={navItem.color}
           backgroundColor={navItem.backgroundColor}
+          onNavigation={onNavigation}
+          currentToggles={currentToggles}
         >
           {navItem.title}
         </NavItem>
