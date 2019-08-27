@@ -9,6 +9,10 @@ import { COUNTRIES, calculateColor } from '../../data/utils'
 
 import { Legend } from './Legend'
 
+let modifiedStyles = {
+  ...defaultStyle,
+}
+
 const countrySource = COUNTRIES.reduce((acc, country): Sources => {
   acc[country] = {
     type: 'geojson',
@@ -36,12 +40,12 @@ for (const country of COUNTRIES) {
       },
     } as any
 
-    defaultStyle.layers.push(layer)
+    modifiedStyles.layers.push(layer)
   }
 }
 
-defaultStyle.sources = {
-  ...defaultStyle.sources,
+modifiedStyles.sources = {
+  ...modifiedStyles.sources,
   ...countrySource,
 } as any
 
@@ -55,15 +59,23 @@ const defaultViewPort: ViewState = {
 
 export const Map = ({ currentToggles }) => {
   const [viewPort, setViewPort] = useState(defaultViewPort)
+
+  if (!currentToggles['carbon-emissions']) {
+    console.log('Removing emission data')
+    modifiedStyles.sources = {} as any
+    modifiedStyles.layers = []
+  }
+  console.log(modifiedStyles)
+
   return (
     <>
-      <Legend />
+      {currentToggles['carbon-emissions'] && <Legend />}
       <ReactMapGL
         {...viewPort}
         mapboxApiAccessToken={process.env.mapBoxToken}
         width="auto"
         height="100vh"
-        mapStyle={defaultStyle}
+        mapStyle={modifiedStyles}
         onViewportChange={viewPort => setViewPort(viewPort)}
         onClick={e => console.log(e)}
       />

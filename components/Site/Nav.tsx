@@ -24,7 +24,6 @@ const NavItem = ({
   color,
   backgroundColor,
 }) => {
-  console.log(`ZEBRA`, currentToggles)
   return (
     <div
       className="nav-item-wrapper"
@@ -46,12 +45,19 @@ const NavItem = ({
             : 'black'};
           color: ${color || 'white'};
           cursor: pointer;
+
+          user-select: none;
+          -moz-user-select: none;
+          -khtml-user-select: none;
+          -webkit-user-select: none;
+          -o-user-select: none;
         }
       `}</style>
     </div>
   )
 }
 
+// https://clrs.cc/
 const NAV_ITEMS = [
   {
     slug: 'carbon-emissions',
