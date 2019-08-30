@@ -8,6 +8,8 @@ import carbon from '../../data/new-carbon-emissions.json'
 import { COUNTRIES, calculateColor } from '../../data/utils'
 
 import { Legend } from './Legend'
+import { CurrentCrises } from './CurrentCrises'
+import { About } from './About'
 
 let modifiedStyles = {
   ...defaultStyle,
@@ -60,16 +62,11 @@ const defaultViewPort: ViewState = {
 export const Map = ({ currentToggles }) => {
   const [viewPort, setViewPort] = useState(defaultViewPort)
 
-  if (!currentToggles['carbon-emissions']) {
-    console.log('Removing emission data')
-    modifiedStyles.sources = {} as any
-    modifiedStyles.layers = []
-  }
-  console.log(modifiedStyles)
-
   return (
     <>
       {currentToggles['carbon-emissions'] && <Legend />}
+      {currentToggles['current-crisis'] && <CurrentCrises />}
+      {currentToggles['about'] && <About />}
       <ReactMapGL
         {...viewPort}
         mapboxApiAccessToken={process.env.mapBoxToken}

@@ -2,11 +2,14 @@ const Logo = () => {
   return (
     <div>
       <img
-        src="static/logo.png"
+        src="static/logo/01_phoenix.png"
         alt="Logo of climate phoenix - a phoenix hugging the earth"
       />
       <style jsx>
         {`
+          div {
+            background-color: #ce2029;
+          }
           img {
             height: 64px;
           }
@@ -70,6 +73,12 @@ const NAV_ITEMS = [
     title: 'Current Crisis',
     color: 'white',
     backgroundColor: '#ff851b',
+  },
+  {
+    slug: 'about',
+    title: 'About',
+    color: 'white',
+    backgroundColor: '#af851b',
   },
 ]
 
