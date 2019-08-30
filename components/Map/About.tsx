@@ -14,6 +14,11 @@ export const About = () => (
       <strong>Meet the Team</strong>
       <ul>
         <li>
+          <a target="_blank" href="https://twitter.com/yuvikakoul">
+            Yuvika
+          </a>
+        </li>
+        <li>
           <a target="_blank" href="https://twitter.com/_marktani">
             Nilan
           </a>
